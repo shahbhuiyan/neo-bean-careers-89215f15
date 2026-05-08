@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TraineesRouteImport } from './routes/trainees'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const TraineesRoute = TraineesRouteImport.update({
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplyRoute = ApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/apply': typeof ApplyRoute
   '/careers': typeof CareersRoute
   '/trainees': typeof TraineesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/apply': typeof ApplyRoute
   '/careers': typeof CareersRoute
   '/trainees': typeof TraineesRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/apply': typeof ApplyRoute
   '/careers': typeof CareersRoute
   '/trainees': typeof TraineesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/careers' | '/trainees'
+  fullPaths: '/' | '/about' | '/apply' | '/careers' | '/trainees'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/careers' | '/trainees'
-  id: '__root__' | '/' | '/about' | '/careers' | '/trainees'
+  to: '/' | '/about' | '/apply' | '/careers' | '/trainees'
+  id: '__root__' | '/' | '/about' | '/apply' | '/careers' | '/trainees'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ApplyRoute: typeof ApplyRoute
   CareersRoute: typeof CareersRoute
   TraineesRoute: typeof TraineesRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/careers'
       fullPath: '/careers'
       preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apply': {
+      id: '/apply'
+      path: '/apply'
+      fullPath: '/apply'
+      preLoaderRoute: typeof ApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ApplyRoute: ApplyRoute,
   CareersRoute: CareersRoute,
   TraineesRoute: TraineesRoute,
 }
